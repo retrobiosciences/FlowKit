@@ -26,7 +26,7 @@ reqs = [
     'pandas>=1.2,<2',
     'psutil>=5.8',
     'scipy>=1.6',
-    'seaborn>=0.11,<0.12'
+    # 'seaborn>=0.11,<0.12' # REMOVING THIS AS WE'RE NOT USING IT
 ]
 
 setup(
