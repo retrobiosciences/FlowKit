@@ -25,7 +25,15 @@ reqs = [
     'numpy>=1.22,<2',
     'pandas>=2.0',
     'psutil>=5.8',
+<<<<<<< HEAD
     'scipy>=1.8'
+||||||| parent of 75b9450 (Update setup.py)
+    'scipy>=1.6',
+    'seaborn>=0.11,<0.12'
+=======
+    'scipy>=1.6',
+    # 'seaborn>=0.11,<0.12' # REMOVING THIS AS WE'RE NOT USING IT
+>>>>>>> 75b9450 (Update setup.py)
 ]
 
 setup(
