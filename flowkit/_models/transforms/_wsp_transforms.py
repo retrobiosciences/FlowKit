@@ -211,6 +211,8 @@ class WSPBiexTransform(Transform):
 
         self.negative = negative
         self.width = width
+        self.positive = positive
+        self.max_value = max_value
 
         x, y = generate_biex_lut(neg=self.negative, width_basis=self.width, pos=positive, max_value=max_value)
 
