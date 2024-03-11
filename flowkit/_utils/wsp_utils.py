@@ -441,6 +441,8 @@ def _parse_wsp_samples(sample_els, ns_map, gating_ns, transform_ns, data_type_ns
         sample_node_el = sample_el.find('SampleNode', ns_map)
         sample_name = sample_node_el.attrib['name']
         sample_id = sample_node_el.attrib['sampleID']
+        dataset_el = sample_el.find('DataSet', ns_map)
+        dataset_uri = dataset_el.attrib['uri']
 
         # It appears there is only a single set of xforms per sample, one for each channel.
         # And, the xforms have no IDs. We'll extract it and give it IDs based on ???
@@ -475,7 +477,8 @@ def _parse_wsp_samples(sample_els, ns_map, gating_ns, transform_ns, data_type_ns
             'custom_gate_ids': set(),
             'transforms': sample_xform_lut,
             'keywords': sample_keywords_lut,
-            'comp': sample_comp
+            'comp': sample_comp,
+            'uri': dataset_uri,
         }
 
         for gate_id, sample_gate_dict in sample_gates.items():
@@ -584,12 +587,6 @@ def parse_wsp(workspace_file_or_path, ignore_transforms=False):
     # Parse Sample elements in SampleList for each sample's gates
     wsp_samples = _parse_wsp_samples(sample_els, ns_map, gating_ns, transform_ns, data_type_ns)
 
-    # The group dicts have the sample members as sample IDs,
-    # convert them to sample names.
-    for group_dict in wsp_groups.values():
-        new_sample_list = [wsp_samples[i]['sample_name'] for i in group_dict['samples']]
-        group_dict['samples'] = new_sample_list
-
     # Since the sample gates have the complete gate tree, we will
     # those to make a GatingStrategy for each sample. However, the
     # gates need to be  converted to the transformed space according
@@ -603,7 +600,6 @@ def parse_wsp(workspace_file_or_path, ignore_transforms=False):
         if len(sample_dict['sample_gates']) == 0:
             continue
 
-        sample_name = sample_dict['sample_name']
         sample_gating_strategy = GatingStrategy()
 
         # Add sample's comp matrix & transforms to GatingStrategy
@@ -627,17 +623,19 @@ def parse_wsp(workspace_file_or_path, ignore_transforms=False):
                 sample_dict['transforms'],
                 ignore_transforms=ignore_transforms
             )
-            sample_gating_strategy.add_gate(tmp_gate, sample_gate_path, sample_id=sample_name)
+            sample_gating_strategy.add_gate(tmp_gate, sample_gate_path, sample_id=sample_id)
 
         processed_sample_data = {
             'keywords': sample_dict['keywords'],
             'compensation': sample_dict['comp'],
             'transforms': sample_dict['transforms'],
             'custom_gate_ids': sample_dict['custom_gate_ids'],
-            'gating_strategy': sample_gating_strategy
+            'gating_strategy': sample_gating_strategy,
+            'uri': sample_dict['uri'],
+            'sample_name': sample_dict['sample_name'],
         }
 
-        processed_samples[sample_name] = processed_sample_data
+        processed_samples[sample_id] = processed_sample_data
 
     wsp_dict = {
         'groups': wsp_groups,
