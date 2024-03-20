@@ -286,6 +286,7 @@ def _convert_wsp_gate(wsp_gate, comp_matrix, xform_lut, ignore_transforms=False)
         gate = gate.convert_to_parent_class()
         gate.dimensions = new_dims
     elif isinstance(wsp_gate, WSPEllipsoidGate):
+        raise ("Ellipsoid gates are currently not supported. Please convert your ellipsoid gate to a polygon gate in FlowJo directly.")
         # FlowJo ellipse gates must be converted to approximate polygons.
         # When a mixed set of transforms where 1 transform is the biex,
         # the ellipse is not a true ellipse. FlowJo also converts all
