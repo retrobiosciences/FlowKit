@@ -494,7 +494,7 @@ def _parse_wsp_samples(sample_els, ns_map, gating_ns, transform_ns, data_type_ns
     return wsp_samples
 
 
-def parse_wsp(workspace_file_or_path, ignore_transforms=False):
+def parse_wsp(workspace_file_or_path, ignore_transforms=False, ignore_empty_gates=True):
     """
     Converts a FlowJo 10 workspace file (.wsp) into a nested Python dictionary with the following structure:
 
@@ -598,7 +598,7 @@ def parse_wsp(workspace_file_or_path, ignore_transforms=False):
     for sample_id, sample_dict in wsp_samples.items():
         # First, check the sample's sample_gates. If empty, then the
         # sample has no gate hierarchy. We'll skip it.
-        if len(sample_dict['sample_gates']) == 0:
+        if len(sample_dict['sample_gates']) == 0 and ignore_empty_gates:
             continue
 
         sample_gating_strategy = GatingStrategy()
