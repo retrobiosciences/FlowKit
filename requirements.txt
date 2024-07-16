@@ -27,24 +27,5 @@ pandas>=2.0
 psutil>=5.8
 
 # scipy notes:
-<<<<<<< HEAD
 #     - 1.8 support python 3.8+
 scipy>=1.8
-||||||| parent of 990ad85 (Update requirements.txt)
-#     - 1.6 support python 3.7+
-scipy>=1.6
-
-# seaborn notes:
-#     - 0.12 has API changes
-#     - seaborn only used in Sample.plot_contour, will change to bokeh soon
-seaborn>=0.11,<0.12
-=======
-#     - 1.6 support python 3.7+
-scipy>=1.6
-
-# REMOVING THIS AS WE'RE NOT USING IT
-# seaborn notes:
-#     - 0.12 has API changes
-#     - seaborn only used in Sample.plot_contour, will change to bokeh soon
-# seaborn>=0.11,<0.12
->>>>>>> 990ad85 (Update requirements.txt)
