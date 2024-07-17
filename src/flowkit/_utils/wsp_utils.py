@@ -630,12 +630,6 @@ def parse_wsp(workspace_file_or_path, ignore_transforms=False, ignore_empty_gate
         sample_els, ns_map, gating_ns, transform_ns, data_type_ns
     )
 
-    # The group dicts have the sample members as sample IDs,
-    # convert them to sample names.
-    for group_dict in wsp_groups.values():
-        new_sample_list = [wsp_samples[i]["sample_name"] for i in group_dict["samples"]]
-        group_dict["samples"] = new_sample_list
-
     # Since the sample gates have the complete gate tree, we will
     # those to make a GatingStrategy for each sample. However, the
     # gates need to be  converted to the transformed space according
